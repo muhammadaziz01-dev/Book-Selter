@@ -8,13 +8,17 @@ const resaltBooks = $('#result-books');
 const darcBtn = $('#darcmod-btn');
 const logo = $('#logo');
 const searchIcon =$('.bi-search');
+const bookmarcWrap = $(".bookmark-list");
 
 
 //--------------------GLOBOL VERAEBLIS
-let besUrel = 'https://www.googleapis.com/books/v1/volumes?q=harry&startIndex=1';
+let besUrl = 'https://www.googleapis.com/books/v1';
+
+let bookmarkList =JSON.parse(localStorage.getItem('bookmark')) ? JSON.parse(localStorage.getItem('bookmark')) : []
+
 
 let classCard = 'card w-[280px]  shadow-lg p-2 rounded-md border';
-
+let bookmarkListClassName="w-full p-4 rounded-lg mb-3  cursor-pointer   bg-indigo-50 flex items-center gap-2 justify-between";
 
 
 
@@ -38,12 +42,12 @@ function logiOut() {
 //--------respons data ----------------
 async function responsDat(url) {
     cardWrap.innerHTML=`<span class="loader"></span>`;
-    let respons = await fetch(url);
+    let respons = await fetch(url+"/volumes?q=harry&startIndex=1");
     let result = await respons.json();
     let data = await  result.items;
     renderData (data)
 }
-responsDat(besUrel);
+responsDat(besUrl);
 
 
 //--------------Render card-----------------
@@ -53,28 +57,26 @@ function renderData (data){
      data.forEach((el) => {
         let card = render ('div', `${classCard}` , `
         <div class="card-img grid place-content-center p-[5px] h-[200px]">
-            <img src="${el.volumeInfo.imageLinks.smallThumbnail}" alt="icon" class ="w-full">
+            <img src="${el.volumeInfo.imageLinks.smallThumbnail}" alt="icon" class ="w-full h-full">
         </div>
         <div class="card__body p-2">
-          <h3 class="text-[18px] font-bold mt-[20px]">${el.volumeInfo.title.length > 25 ? el.volumeInfo.title.slice(0,22)+'...': el.volumeInfo.title }</h3>
-          <p class="text-[13px] text-gray-500 font-[500]">
-            ${el.volumeInfo.authors}
-          </p>
-          <p class="text-[13px] text-gray-500 font-[500]">${el.volumeInfo.publishedDate}</p>
+          <div class="h-[100px] overflow-y-hidden">
+              <h3 class="text-[18px] font-bold mt-[20px]">${el.volumeInfo.title.length > 25 ? el.volumeInfo.title.slice(0,22)+'...': el.volumeInfo.title }</h3>
+              <p class="text-[13px] text-gray-500 font-[500]">${el.volumeInfo.authors}</p>
+              <p class="text-[13px] text-gray-500 font-[500]">${el.volumeInfo.publishedDate}</p>
+          </div>
           <div class="mt-[10px] flex items-center justify-between">
-            <button class="bg-yellow-400 font-bold text-[14px] py-2 px-5 rounded-sm">
+            <button data-id="${el.id}" class="bg-yellow-400 bookmark font-bold text-[14px] py-2 px-5 rounded-sm">
               Bookmark
             </button>
 
-            <button class="bg-blue-200 text-blue-500 font-bold text-[14px] py-2 px-12 rounded-sm">
+            <button data-id="${el.id}" class="bg-blue-200 text-blue-500 book-more  font-bold text-[14px] py-2 px-12 rounded-sm">
               More
             </button>
           </div>
-          <button
-            class="bg-gray-400 text-white w-full mt-2 py-[5px] rounded-sm"
-          >
+          <a href="${el.volumeInfo.previewLink}" class="bg-gray-400 text-white w-full mt-2 py-[5px] block text-center rounded-sm">
             Read
-          </button>
+          </a>
         </div>
         `);
          cardWrap.appendChild(card);
@@ -94,16 +96,110 @@ searchInput.addEventListener('keyup', (e)=>{
 
 async function serchBook(bookName) {
     cardWrap.innerHTML=`<span class="loader"></span>`
-    let respons = await fetch (`https://www.googleapis.com/books/v1/volumes?q=${bookName}&startIndex=0&maxResults=3`);
+    let respons = await fetch (`https://www.googleapis.com/books/v1/volumes?q=${bookName}&startIndex=0&maxResults=30`);
     let result = await respons.json();
     let books = await result.items
     renderData(books);
 }
 //-----------------------------------------------
 
-console.log(document.body.style);
 
-//--DARC mode----------
+
+//---------------Bookmarkka qo'shish ------------
+cardWrap.addEventListener("click" , (e)=>{
+   if(e.target.classList.contains("bookmark")){
+     let id = e.target.dataset.id;
+     getDataById(id)
+   }
+});
+
+async function getDataById(id) {
+  try{
+    let response = await fetch(`${besUrl}/volumes/${id}`);
+    let resalt = await response.json()
+    if(bookmarkList.length){
+      let duplicate = bookmarkList.map((el)=> el.id);
+
+      if(!duplicate.includes(id)){
+         bookmarkList.push(resalt)
+         localStorage.setItem("bookmark" , JSON.stringify(bookmarkList));
+         renderBookmark()
+         // toaster 
+
+      }else{
+        // toaster 
+      }
+    }else{
+      bookmarkList.push(resalt);
+      renderBookmark()
+      // toaster 
+    }
+  }catch(err){
+    console.log(err.masseg);
+  }
+}
+//----------------------------------------------
+
+
+
+//---------------Bookmarkka renderlash ------------
+function renderBookmark() {
+  bookmarcWrap.innerHTML='';
+  bookmarkList.forEach((el)=>{
+    let cantentLi = render("li", bookmarkListClassName , `
+    <p class="flex flex-col">
+        <strong class="text-[14px] font-semibold text-black">${el.volumeInfo.title}</strong>
+        <span class="text-[13px] font-medium text-[rgba(117,120,129,1)]">${el.volumeInfo.authors}</span>
+    </p>
+    <span class="flex items-center gap-2">
+        <a href="${el.volumeInfo.previewLink}" target="_blanc">
+            <i class="bi bi-book text-[rgba(117,130,138,1)]"></i>
+        </a>
+        <button data-id="${el.id}" class="delete-book">
+            <i data-id="${el.id}" class="bi bi-backspace text-red-600 delete-book"></i>
+        </button>
+    </span>
+    `)
+    bookmarcWrap.appendChild(cantentLi);
+  })
+}
+renderBookmark()
+//-------------------------------------------------
+
+
+
+
+//--------------------Bookmarcdan o'chirish--------
+bookmarcWrap.addEventListener("click", (e)=>{
+  if(e.target.classList.contains('delete-book')){
+    let deletBookId = e.target.dataset.id;
+    console.log(deletBookId);
+    let bookmarkFilter = bookmarkList.filter((el) => el.id != deletBookId);
+    localStorage.setItem("bookmark" , JSON.stringify(bookmarkFilter));
+    bookmarkList =JSON.parse(localStorage.getItem('bookmark'));
+    renderBookmark()
+    // window.location.reload()
+  }
+})
+//-------------------------------------------------
+// localStorage.removeItem("bookmark");
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//--DARC mode---------------------
 darcBtn.addEventListener('click' , ()=>{
     darcBtn.classList.toggle("darc-btn")
     if(darcBtn.classList.contains("darc-btn")){
@@ -121,6 +217,8 @@ darcBtn.addEventListener('click' , ()=>{
         searchIcon.style.color = `rgba(0,0,0,0.24)`;
     }
 })
+//------------------------------------
+
 
 
 
