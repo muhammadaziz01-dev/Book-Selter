@@ -1,36 +1,45 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <script src="https://cdn.tailwindcss.com"></script>
-        <!-- font linl  -->
-        <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400..700&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
-        <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400..700&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
-        <!-- boptstrap icon link -->
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-        <!-- css file -->
-        <link rel="stylesheet" href="./styles/output.css" />
-        <link rel="stylesheet" href="./styles/min.css">
-        <title>Document</title>
-    </head>
-    <body>
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- font linl  -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400..700&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+        rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400..700&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+        rel="stylesheet">
+    <!-- boptstrap icon link -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <!-- css file -->
+    <link rel="stylesheet" href="./styles/output.css" />
+    <link rel="stylesheet" href="./styles/min.css">
+    <link rel="icon" href="./assets/images/book-0pen">
+    <title>Book shelter</title>
+</head>
+
+<body>
     <!--HADER START  -->
     <header>
         <nav>
             <div class="nav--top border-b">
                 <div class="container-pag flex items-center justify-between py-3">
-                     <img src="./assets/images/logo2.svg" alt="logo" id="logo">
-                     <div class="relative w-[670px] h-[48px] border bg-transparent rounded-[30px]">
-                        <input id="search-input" type="text" placeholder="Search books" class="w-full h-full px-3 pl-16 outline-none rounded-[30px] bg-transparent">
+                    <img src="./assets/images/logo2.svg" alt="logo" id="logo">
+                    <div class="relative w-[670px] h-[48px] border bg-transparent rounded-[30px]">
+                        <input id="search-input" type="text" placeholder="Search books"
+                            class="w-full h-full px-3 pl-16 outline-none rounded-[30px] bg-transparent">
                         <i class="bi bi-search absolute top-1 left-5 text-[rgba(0,0,0,0.24)] text-[24px]"></i>
-                     </div>
-                     <div class="flex items-center gap-5">
+                    </div>
+                    <div class="flex items-center gap-5">
                         <button id="darcmod-btn">
                             <i class="bi bi-moon-stars-fill text-amber-300 text-[22px]"></i>
                         </button>
-                        <button class="py-[10px] px-[23px] rounded-md bg-blue-700 text-white font-medium" onclick="logiOut()">Logout</button>
-                     </div>
+                        <button class="py-[10px] px-[23px] rounded-md bg-blue-700 text-white font-medium"
+                            onclick="logiOut()">Logout</button>
+                    </div>
                 </div>
             </div>
             <div class="border-b">
@@ -44,17 +53,17 @@
             </div>
         </nav>
     </header>
-     <!--HADER END  -->
-     <!--MAIN START -->
-     <main class=" flex container-pag  ">
+    <!--HADER END  -->
+    <!--MAIN START -->
+    <main class=" flex container-pag  ">
 
         <!-- ASIDE START -->
         <aside id="aside" class="max-w-[300px] absolute md:static min-h-screen border-r">
             <div class="p-5">
                 <h2 class="text-[24px] font-medium">Bookmarks</h2>
-                <p class="text-[14px] font-medium pr-16">If you don’t like to read, you haven’t found the right book</p>    
+                <p class="text-[14px] font-medium pr-16">If you don’t like to read, you haven’t found the right book</p>
             </div>
-           <ul class="nav-menu p-3 bookmark-list">
+            <ul class="nav-menu p-3 bookmark-list">
                 <!-- <li class="w-full p-4 rounded-lg  cursor-pointer   bg-indigo-50 flex items-center justify-between">
                     <p class="flex flex-col">
                         <strong class="text-[16px] font-semibold text-black">Python</strong>
@@ -72,7 +81,7 @@
                 </li> -->
 
             </ul>
-            
+
         </aside>
         <!-- ASIDE END -->
 
@@ -108,12 +117,63 @@
                 </div> -->
             </div>
         </section>
-        
         <!-- INTRO SECTION END -->
 
+        <div class="toogle-menu hide-toogle-menu w-full  absolute top-0 left-0 bg-[rgba(0,0,0,0.7)] flex justify-end">
+
+            <div class="w-[30%] bg-white h-[2000px] ">
+                <div class="flex items-center justify-between bg-[#F8FAFD] py-4 px-6">
+                    <h2 id="toogl-title" class="text-[20px] text-black ">....</h2>
+                    <button id="toogl-menu-btn"
+                        class="border border-transparent duration-200 hover:border-slate-300   px-[4px] cursor-pointer hover:shadow-sm">
+                        <i class="bi bi-x text-[20px] cursor-pointer"></i>
+                    </button>
+                </div>
+                <div class="toogl-menu-info mt-[44px] mb-[40px] relative">
+                    <span class="loader"></span>
+                    <!-- <div>
+                        <img src="./assets/images/Rectangle.png" alt="img" class="mx-auto mb-[51px]">
+                        <p class="px-[40px] mb-[50px] text-[#58667E]">
+                            Lorem ipsum dolor sit amet consectetur, adipisicing elit. Quasi molestias maiores,
+                            accusantium provident quae repellat expedita a consequuntur quam unde soluta cupiditate!
+                            Lorem ipsum dolor, sit amet consectetur adipisicing elit. Officia provident dolorum
+                            excepturi aut animi magnam pariatur soluta adipisci molestiae? Placeat ut natus sint
+                            consequatur similique, quod dolorem numquam autem! Expedita corporis est fuga hic vitae
+                            incidunt sint dolore quas sit.
+                        </p>
+                        <p class="px-[40px] flex items-center gap-4 mb-4">
+                            <strong  class="text-[#222531]">Author :</strong>
+                            <span class="text-[#0D75FF] py-[5px] px-5 bg-[rgba(13,117,255,0.09)] rounded-[30px]">Jamal Kasper</span>
+                        </p>
+                        <p class="px-[40px] flex items-center gap-4 mb-4">
+                            <strong  class="text-[#222531]">Published : </strong>
+                            <span class="text-[#0D75FF] py-[5px] px-5 bg-[rgba(13,117,255,0.09)] rounded-[30px]">Jamal Kasper</span>
+                        </p>
+                        <p class="px-[40px] flex items-center gap-4 mb-4">
+                            <strong  class="text-[#222531]">Publishers:</strong>
+                            <span class="text-[#0D75FF] py-[5px] px-5 bg-[rgba(13,117,255,0.09)] rounded-[30px]">Jamal Kasper</span>
+                        </p>
+                        <p class="px-[40px] flex items-center gap-4 mb-4">
+                            <strong  class="text-[#222531]">Categories:</strong>
+                            <span class="text-[#0D75FF] py-[5px] px-5 bg-[rgba(13,117,255,0.09)] rounded-[30px]">Jamal Kasper</span>
+                        </p>
+                        <p class="px-[40px] flex items-center gap-4 mb-4">
+                            <strong  class="text-[#222531]">Pages Count:</strong>
+                            <span class="text-[#0D75FF] py-[5px] px-5 bg-[rgba(13,117,255,0.09)] rounded-[30px]">Jamal Kasper</span>
+                        </p>
+                        <div class="py-4 px-5  flex justify-end mt-[50px]">
+                            <a href="#" class="py-1 px-8 rounded-sm bg-[#75828A] text-white text-center">Read</a>
+                        </div>
+                    </div> -->
+                </div>
+                
+            </div>
+        </div>
+
     </main>
-     <!--MAIN END  -->
-    </body>
-    <script src="./assets/js/utilis.js"></script>
-    <script src="./assets/js/main.js"></script>
+    <!--MAIN END  -->
+</body>
+<script src="./assets/js/utilis.js"></script>
+<script src="./assets/js/main.js"></script>
+
 </html>

@@ -9,6 +9,13 @@ const darcBtn = $('#darcmod-btn');
 const logo = $('#logo');
 const searchIcon =$('.bi-search');
 const bookmarcWrap = $(".bookmark-list");
+const toogleMenu = $('.toogle-menu');
+const toogleTitle = $('#toogl-title');
+const toogleMenuBtn = $('#toogl-menu-btn');
+const toogleMenuInfo = $('.toogl-menu-info');
+
+
+
 
 
 //--------------------GLOBOL VERAEBLIS
@@ -182,7 +189,77 @@ bookmarcWrap.addEventListener("click", (e)=>{
   }
 })
 //-------------------------------------------------
-// localStorage.removeItem("bookmark");
+
+
+
+
+
+
+
+//---------------Toogle menu function----------------------
+cardWrap.addEventListener("click", (e)=>{
+    if(e.target.classList.contains("book-more")){
+      let id = e.target.dataset.id
+      toogleMenu.classList.toggle('hide-toogle-menu')
+      tooglInfo(id)
+    }
+})
+
+async function tooglInfo(id) {
+  try{
+     let response = await fetch(`${besUrl}/volumes/${id}`);
+     let result = await response.json()
+     toogleMenuInfo.innerHTML=`<span class="loader"></span>`
+     renderTooglInfo(result.volumeInfo);
+  }catch(err){
+     console.log(err.masseg);
+  }
+}
+//-------------------------------------------------
+
+
+
+//--Render toogle menu info------------------
+function renderTooglInfo(obj) {
+  toogleMenuInfo.textContent='';
+  toogleTitle.textContent=`${obj.title.length > 35 ? obj.title.slice(0,32)+'...': obj.title }`
+  let infoCantent = render('div' , '' , `
+  <img src="${obj.imageLinks.thumbnail}" alt="img" class="mx-auto mb-[51px]">
+  <p class="px-[40px] mb-[50px] text-[#58667E]">${obj.title}</p>
+  <p class="px-[40px] flex items-center gap-4 mb-4">
+      <strong  class="text-[#222531]">Author :</strong>
+      <span class="text-[#0D75FF] py-[5px] px-5 bg-[rgba(13,117,255,0.09)] rounded-[30px]">${obj.authors}</span>
+  </p>
+  <p class="px-[40px] flex items-center gap-4 mb-4">
+      <strong  class="text-[#222531]">Published : </strong>
+      <span class="text-[#0D75FF] py-[5px] px-5 bg-[rgba(13,117,255,0.09)] rounded-[30px]">${obj.publishedDate}</span>
+  </p>
+  <p class="px-[40px] flex items-center gap-4 mb-4">
+      <strong  class="text-[#222531]">Publishers:</strong>
+      <span class="text-[#0D75FF] py-[5px] px-5 bg-[rgba(13,117,255,0.09)] rounded-[30px]">${obj.publisher}</span>
+  </p>
+  <p class="px-[40px] flex items-center gap-4 mb-4">
+      <strong  class="text-[#222531]">Categories:</strong>
+      <span class="text-[#0D75FF] py-[5px] px-5 bg-[rgba(13,117,255,0.09)] rounded-[30px]">${obj.categories}</span>
+  </p>
+  <p class="px-[40px] flex items-center gap-4 mb-4">
+      <strong  class="text-[#222531]">Pages Count:</strong>
+      <span class="text-[#0D75FF] py-[5px] px-5 bg-[rgba(13,117,255,0.09)] rounded-[30px]">${obj.printedPageCount}</span>
+  </p>
+  <div class="py-4 px-5  flex justify-end mt-[50px]">
+      <a href="${obj.previewLink}" class="py-1 px-8 rounded-sm bg-[#75828A] text-white text-center">Read</a>
+  </div>
+  `)
+  toogleMenuInfo.appendChild(infoCantent);
+}
+//-------------------------------------------
+
+
+//---------------------Toogle menu btn ---------
+toogleMenuBtn.addEventListener('click',()=>{
+  toogleMenu.classList.toggle('hide-toogle-menu')
+})
+////--------------------------
 
 
 
